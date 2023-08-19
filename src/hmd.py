@@ -126,6 +126,8 @@ def main():
 
     console.print(f"Comparing generations {hm_generation_first.version}..{hm_generation_second.version}")
 
+    # Even though NVD is a python program, it wasn't meant to be used as a library,
+    # so it's easier to have as a runtime dependency and run it in the subprocess than try to run it from within python
     cmd = ["nvd", "diff", str(hm_generation_first.path), str(hm_generation_second.path)]
 
     subprocess.run(cmd, shell=False)
