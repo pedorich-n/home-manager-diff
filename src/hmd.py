@@ -7,6 +7,7 @@ import subprocess
 import sys
 from dataclasses import dataclass
 from datetime import datetime
+from pathlib import Path
 from typing import List
 
 from rich.console import Console
@@ -18,34 +19,33 @@ signal.signal(signal.SIGINT, lambda signal, frame: sys.exit(0))
 @dataclass
 class HmGeneration:
     version: int
-    path: str
+    path: Path
     created_at: datetime
 
 
-def get_hm_profiles_root(user: str) -> str:
+def get_hm_profiles_root(user: str) -> Path:
     # A copy of https://github.com/nix-community/home-manager/blob/f1490b8/home-manager/home-manager#L119-L140
-    global_nix_state_dir = os.environ.get("NIX_STATE_DIR", "/nix/var/nix")
-    global_nix_profiles_dir = os.path.join(global_nix_state_dir, "profiles", "per-user", user)
+    global_nix_state_dir = Path(os.environ.get("NIX_STATE_DIR", "/nix/var/nix"))
+    global_nix_profiles_dir = global_nix_state_dir.joinpath("profiles", "per-user", user)
 
-    user_state_home = os.environ.get("XDG_STATE_HOME", os.path.join(os.path.expanduser("~"), ".local", "state"))
-    user_nix_profiles_dir = os.path.join(user_state_home, "nix", "profiles")
+    user_state_home = Path(os.environ.get("XDG_STATE_HOME", "~/.local/state")).expanduser()
+    user_nix_profiles_dir = user_state_home.joinpath("nix", "profiles")
 
-    if os.path.exists(user_nix_profiles_dir):
+    if user_nix_profiles_dir.exists():
         return user_nix_profiles_dir
     else:
         return global_nix_profiles_dir
 
 
-def get_generations(path: str) -> List[HmGeneration]:
+def get_generations(path: Path) -> List[HmGeneration]:
     hm_profile_regex = re.compile(r"home-manager-(?P<number>\d+)-link")
-    subfolders = [p.path for p in os.scandir(path) if p.is_dir()]
 
     generations = []
-    for folder in subfolders:
-        result = re.search(hm_profile_regex, folder)
+    for entry in path.iterdir():
+        result = hm_profile_regex.search(str(entry))
         if result:
             version_number = int(result.groupdict()["number"])
-            real_path = os.path.realpath(folder)
+            real_path = entry.resolve()
             created_at = datetime.fromtimestamp(os.path.getctime(real_path))
 
             generation = HmGeneration(version=version_number, path=real_path, created_at=created_at)
@@ -126,6 +126,6 @@ def main():
 
     console.print(f"Comparing generations {hm_generation_first.version}..{hm_generation_second.version}")
 
-    cmd = ["nvd", "diff", hm_generation_first.path, hm_generation_second.path]
+    cmd = ["nvd", "diff", str(hm_generation_first.path), str(hm_generation_second.path)]
 
     subprocess.run(cmd, shell=False)
