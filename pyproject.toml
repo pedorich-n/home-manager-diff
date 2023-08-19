@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "home-manager-diff"
+version = "0.1.0"
+description = ""
+authors = []
+#readme = "README.md"
+packages = [{ include = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+rich = "^13"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.5.0"
+
+[tool.poetry.scripts]
+hmd = "src.hmd:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
