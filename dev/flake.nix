@@ -1,4 +1,6 @@
 {
+  # Inspired by https://github.com/nix-community/ethereum.nix/issues/258 & https://github.com/NixOS/nix/issues/6124
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
@@ -74,10 +76,6 @@
         };
         settings.formatter = {
           black.options = [ "--line-length=120" ];
-
-          prettier.includes = [
-            "*.md"
-          ];
         };
       };
 

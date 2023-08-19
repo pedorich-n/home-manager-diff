@@ -34,7 +34,7 @@
     };
 
     flake = {
-      hmModule.default = import ./nix/hm-module.nix;
+      hmModule = import ./nix/hm-module.nix;
     };
   };
 }
