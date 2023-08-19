@@ -10,9 +10,6 @@ packages = [{ include = "src" }]
 python = "^3.9"
 rich = "^13"
 
-[tool.poetry.group.dev.dependencies]
-mypy = "^1.5.0"
-
 [tool.poetry.scripts]
 hmd = "src.hmd:main"
 
