@@ -102,8 +102,8 @@
       };
     };
 
-    # flake = {
-    #   nixosModules.default = import ./nix/nixos-module.nix;
-    # };
+    flake = {
+      hmModule.default = import ./nix/hm-module.nix;
+    };
   };
 }
