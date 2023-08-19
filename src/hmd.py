@@ -14,6 +14,7 @@ from rich.prompt import Prompt
 
 signal.signal(signal.SIGINT, lambda signal, frame: sys.exit(0))
 
+
 @dataclass
 class HmGeneration:
     version: int
@@ -61,15 +62,28 @@ def format_generation(generation: HmGeneration) -> str:
 
 
 def get_hm_generation_input(number: str, choices: List[str], console: Console, default: str) -> int:
-    result = Prompt.ask(f"Enter {number} HM Generation to compare", choices=choices, show_choices=False, console=console, default=default)
+    result = Prompt.ask(
+        f"Enter {number} HM Generation to compare",
+        choices=choices,
+        show_choices=False,
+        console=console,
+        default=default,
+    )
     return int(result)
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Home Manager Diff", formatter_class=lambda prog: argparse.ArgumentDefaultsHelpFormatter(prog, max_help_position=60)
+        description="Home Manager Diff",
+        formatter_class=lambda prog: argparse.ArgumentDefaultsHelpFormatter(prog, max_help_position=60),
     )
-    parser.add_argument("--auto", "-a", action="store_true", required=False, help="When set, automatically compares last two generations")
+    parser.add_argument(
+        "--auto",
+        "-a",
+        action="store_true",
+        required=False,
+        help="When set, automatically compares last two generations",
+    )
 
     return parser.parse_args()
 
