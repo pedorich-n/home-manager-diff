@@ -47,3 +47,13 @@ In your `flake.nix`:
 After the installation, simply run `home-manager switch` as usual. HMD will automatically show the differences between the latest and current generations.
 
 You can also run `hmd` from CLI to compare any two Home-Manager generations.
+
+## Demo
+
+Here's an example what `hmd` prints out on a `home-manager switch`. In this generation `neovim` was added and `wslu` removed:
+
+[![asciicast](https://asciinema.org/a/aWEeIIn6THrQCPsKSczd97ZXV.svg)](https://asciinema.org/a/aWEeIIn6THrQCPsKSczd97ZXV)
+
+And here's ane example of comparing any two Home-Manager generations using `hmd`:
+
+[![asciicast](https://asciinema.org/a/UyTKnK74mx1HWsua8GwVsj6b0.svg)](https://asciinema.org/a/UyTKnK74mx1HWsua8GwVsj6b0)
