@@ -3,6 +3,9 @@
 Home Manager Diff (`hmd`) is a wrapper around [nvd](https://gitlab.com/khumba/nvd), that simplifies the process of comparing different Home-Manager generations.
 It also provides an `activation` script that runs `hmd` during `home-manager switch`, showing the differences between the latest and current generations.
 
+> **Warning**
+> Only works with standalone Home-Manager installation at the moment.
+
 ## Installation
 
 In your `flake.nix`:
