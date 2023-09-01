@@ -1,21 +1,33 @@
-name: update-flake-lock
+name: update-flake-locks
 on:
   workflow_dispatch: # allows manual triggering
   schedule:
     - cron: "0 10 1,14 * *"
 
 jobs:
-  lockfile:
+  update-flake-locks:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v3.6.0
       - name: Install Nix
         uses: cachix/install-nix-action@v22
       - name: Update flake.lock
-        uses: DeterminateSystems/update-flake-lock@v19
+        uses: DeterminateSystems/update-flake-lock@v20
         with:
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          branch: update_flake_lock_action
           pr-title: "Update flake.lock"
+          pr-labels: |
+            dependencies
+            automated
+      - name: Update dev flake.lock
+        uses: DeterminateSystems/update-flake-lock@v20
+        with:
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          branch: update_dev_flake_lock_action
+          path-to-flake-dir: ./dev
+          pr-title: "Update dev flake.lock"
           pr-labels: |
             dependencies
             automated
