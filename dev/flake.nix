@@ -42,14 +42,14 @@
       inputs.pre-commit-hooks.flakeModule
     ];
 
-    perSystem = { inputs', config, pkgs, lib, ... }: {
+    perSystem = { config, pkgs, lib, ... }: {
       devShells = {
         default = pkgs.mkShell {
           name = "home-manager-diff";
           buildInputs = [ pkgs.bashInteractive ];
-          packages = [
-            inputs'.poetry2nix.packages.poetry
-            pkgs.just
+          packages = with pkgs; [
+            poetry
+            just
           ];
         };
 
