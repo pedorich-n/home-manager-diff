@@ -11,8 +11,7 @@
     };
 
     poetry2nix = {
-      url = "github:K900/poetry2nix/new-bootstrap-fixes"; # https://github.com/nix-community/poetry2nix/pull/1290
-      # url = "github:nix-community/poetry2nix"; 
+      url = "github:nix-community/poetry2nix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";
