@@ -57,7 +57,7 @@
       };
 
       treefmt.config = {
-        projectRootFile = "pyproject.toml";
+        projectRootFile = ".root";
         flakeCheck = false;
 
         programs = {

@@ -23,7 +23,7 @@ In your `flake.nix`:
     homeConfigurations.example = home-manager.lib.homeManagerConfiguration {
         ...
         modules = [
-            home-manager-diff.hmModule
+            home-manager-diff.hmModules.default
             ./configuration.nix
         ];
     };

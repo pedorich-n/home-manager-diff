@@ -15,26 +15,31 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";
+        nix-github-actions.follows = "";
       };
     };
   };
 
-  outputs = inputs@{ flake-parts, systems, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
+  outputs = inputs@{ flake-parts, systems, ... }: flake-parts.lib.mkFlake { inherit inputs; } ({ moduleWithSystem, ... }: {
     systems = import systems;
 
-    perSystem = { pkgs, system, ... }: {
+    perSystem = { pkgs, system, config, ... }: {
       _module.args.pkgs = import inputs.nixpkgs {
         inherit system;
         overlays = [ inputs.poetry2nix.overlays.default ];
       };
 
       packages = {
-        default = pkgs.callPackage ./nix/package.nix { };
+        hmd = pkgs.callPackage ./nix/package.nix { };
+        default = config.packages.hmd;
       };
     };
 
     flake = {
-      hmModule = import ./nix/hm-module.nix;
+      hmModules.default = moduleWithSystem (perSystem@{ config }: { ... }: {
+        imports = [ ./nix/hm-module.nix ];
+        programs.hmd.package = perSystem.config.packages.hmd;
+      });
     };
-  };
+  });
 }
