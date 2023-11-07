@@ -53,7 +53,21 @@
           ];
         };
 
-        pre-commit = config.pre-commit.devShell;
+        pre-commit =
+          let
+            gitExe = lib.getExe pkgs.git;
+          in
+          pkgs.mkShell {
+            shellHook = ''
+              ${config.pre-commit.installationScript}
+            
+              hooksPath=$(${gitExe} config --local core.hooksPath)
+              if [ "$hooksPath" == "../.git/hooks" ]; then
+                  ${gitExe} config --local core.hooksPath ".git/hooks"
+                  echo "Replaced core.hooksPath with \".git/hooks\""
+              fi
+            '';
+          };
       };
 
       treefmt.config = {
