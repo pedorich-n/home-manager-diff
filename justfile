@@ -1,11 +1,11 @@
 check:
-    cd ./dev; nix flake check
+    nix flake check ./dev
 
 fmt:
     cd ./dev; nix fmt ../
 
 develop:
-    cd ./dev; nix develop
+    nix develop ./dev
 
 generate-pre-commit:
-    cd ./dev; nix develop .#pre-commit
+    nix develop ./dev#pre-commit
