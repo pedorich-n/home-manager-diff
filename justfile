@@ -1,11 +1,4 @@
-check:
-    nix flake check ./dev
-
-fmt:
-    cd ./dev; nix fmt ../
+import "dev/justfile.default"
 
 develop:
-    nix develop ./dev
-
-generate-pre-commit:
-    nix develop ./dev#pre-commit
+    nix develop "{{ justfile_directory() }}"
