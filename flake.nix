@@ -35,6 +35,17 @@
         hmd = pkgs.callPackage ./nix/package.nix { };
         default = config.packages.hmd;
       };
+
+      devShells = {
+        default = pkgs.mkShell {
+          name = "home-manager-diff";
+          buildInputs = [ pkgs.bashInteractive ];
+          packages = with pkgs; [
+            poetry
+            just
+          ];
+        };
+      };
     };
 
     flake = {
