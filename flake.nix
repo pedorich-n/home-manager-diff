@@ -1,10 +1,10 @@
 {
-  description = "Application packaged using poetry2nix";
+  description = "Home Manager Diff";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     systems.url = "github:nix-systems/default";
+    flake-parts.url = "github:hercules-ci/flake-parts";
     flake-utils = {
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
